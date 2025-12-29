@@ -146,7 +146,8 @@ doc_events = {
 	},
 	"ToDo": {
 		"after_insert": ["crm.api.todo.after_insert"],
-		"on_update": ["crm.api.todo.on_update"],
+		"on_update": ["crm.api.todo.on_update", "crm.assignment_override.prevent_assignment_notifications"],
+		"validate": ["crm.assignment_override.prevent_assignment_notifications"],
 	},
 	"Comment": {
 		"on_update": ["crm.api.comment.on_update"],
@@ -207,9 +208,10 @@ scheduler_events = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# "frappe.desk.doctype.event.event.get_events": "crm.event.get_events"
-# }
+override_whitelisted_methods = {
+	"frappe.desk.form.assign_to.add": "crm.assignment_override.add_assignment_without_email",
+	"frappe.desk.doctype.notification_log.notification_log.enqueue_create_notification": "crm.assignment_override.enqueue_create_notification_without_assignment_emails"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
