@@ -403,6 +403,7 @@
    "label": "Previously Assigned",
    "read_only": 1
   },
+  {
    "fieldname": "lost_details_tab",
    "fieldtype": "Tab Break",
    "label": "Lost Details"
