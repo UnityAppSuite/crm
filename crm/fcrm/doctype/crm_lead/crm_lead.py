@@ -543,12 +543,15 @@ class CRMLead(Document):
 		"""Auto-assign using Assignment Rule when status is Connected + Appointment"""
 		try:
 			# Get the Assignment Rule for appointments
-			assignment_rule = frappe.get_doc("Assignment Rule", "Appointment Assignment")
-
-			if not assignment_rule or assignment_rule.disabled:
+			if not frappe.db.exists("Assignment Rule", "Appointment Assignment"):
 				frappe.log_error(
-					title="Assignment Rule Error", message="Appointment Assignment rule not found or disabled"
+					title="Assignment Rule Missing",
+					message="'Appointment Assignment' rule does not exist. Please create it in Assignment Rules."
 				)
+				return
+
+			assignment_rule = frappe.get_doc("Assignment Rule", "Appointment Assignment")
+			if assignment_rule.disabled:
 				return
 
 			# Check if assignment rule condition matches
